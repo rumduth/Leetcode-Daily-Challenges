@@ -1,0 +1,6 @@
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        cache = defaultdict(list)
+        for word in strs:
+            cache[''.join(sorted(word))].append(word)
+        return [word for _, word in cache.items()]
