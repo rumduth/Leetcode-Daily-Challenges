@@ -1,0 +1,33 @@
+from typing import List
+
+class Solution:
+    """
+    @param s: the string
+    @param shift: the shift operations
+    @return: the string after shifts
+    """
+    def string_shift(self, s: str, shift: List[List[int]]) -> str:
+        # write your code here
+        leftShift = 0
+        rightShift = 0
+        for direction, shifts in shift:
+            if direction == 0:
+                leftShift += shifts
+            else:
+                rightShift += shifts
+        
+        if leftShift == rightShift:
+            return s
+        elif leftShift > rightShift:
+            moves = (leftShift - rightShift) % len(s)
+             
+            str1 = s[:moves]
+            str2 = s[moves:]
+            return str2 + str1
+        else:
+            moves = (rightShift - leftShift) % len(s)
+            str1 = s[:len(s) - moves]
+            str2 = s[len(s)-moves:]
+            return str2 + str1
+
+
