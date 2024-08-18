@@ -1,0 +1,36 @@
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        cache = {}
+        def sumDigits(n):
+            sum = 0
+            while n > 0:
+                sum += (n % 10) ** 2
+                n = n // 10
+            return sum
+        
+        while True:
+            if n == 1:
+                return True
+            if n in cache:
+                return False
+            cache[n] = True
+            n = sumDigits(n)
+
+
+
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        def get_next(x):
+            total_sum = 0
+            while x:
+                x, digit = divmod(x,10)
+                total_sum += digit * digit
+            return total_sum
+        slow = n
+        fast = get_next(n)
+        while slow != fast:
+            slow = get_next(slow)
+            fast = get_next(get_next(fast))
+        
+        return slow == 1
+    
