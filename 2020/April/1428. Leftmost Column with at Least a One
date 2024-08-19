@@ -1,0 +1,41 @@
+from typing import (
+    List,
+)
+
+"""
+Definition of BinaryMatrix:
+class BinaryMatrix:
+    def dimensions(self) -> list[]:
+        return [rows, cols]
+    def get(self,row,col) -> int:
+        return int[row][col]
+"""
+class Solution:
+    """
+    @param binary_matrix: A binary matrix containing only elements 0 or 1.
+    @return: The index of leftmost column with at least a one.
+    """
+    def get_leftmost_column_with_one(self, binary_matrix: 'BinaryMatrix') -> int:
+        # --- write your code here ---
+        m, n = binary_matrix.dimensions()
+        res = n
+        col = n - 1
+        for row in range(m):
+            if binary_matrix.get(row,res-1) == 0:
+                continue
+            left = 0
+            right = n - 1
+            while left < right:
+                middle = (left + right) >> 1
+                if binary_matrix.get(row,middle) == 0:
+                    left = middle + 1
+                else:
+                    right = middle
+            res = min(res,left)
+
+        
+        if res == n:
+            return -1
+        return res
+
+
