@@ -1,0 +1,17 @@
+class Solution:
+    def floodFill(self, image: List[List[int]], sr: int, sc: int, color: int) -> List[List[int]]:
+        m = len(image)
+        n = len(image[0])
+        colorPicked = image[sr][sc]
+        if colorPicked == color:
+            return image
+        directions = [0,1,0,-1,0]
+        def dfs(r, c):
+            if r < 0 or r >= m or c < 0 or c >= n or image[r][c] != colorPicked:
+                return
+            image[r][c] = color
+            for i in range(4):
+                dfs(r + directions[i], c+ directions[i+1])
+        
+        dfs(sr,sc)
+        return image
