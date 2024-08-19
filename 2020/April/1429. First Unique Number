@@ -1,0 +1,46 @@
+from typing import (
+    List,
+)
+
+from collections import deque, Counter
+
+"""
+Your FirstUnique object will be instantiated and called as such:
+first_unique = FirstUnique(nums)
+ans = first_unique.showFirstUnique()
+first_unique.add(value)
+"""
+class FirstUnique:
+    """
+    @param nums: Numbers to initialize the queue.
+    """
+    def __init__(self, nums: List[int]):
+        # --- write your code here ---
+        self.queue = deque([])
+        self.counter = Counter(nums)
+        for num in nums:
+            if self.counter[num] == 1:
+                self.queue.append(num)
+
+
+    """
+    @return: The value of the first unique integer.
+    """
+    def show_first_unique(self) -> int:
+        # --- write your code here ---
+        while self.queue and self.counter[self.queue[0]] > 1:
+            self.queue.popleft();
+        if self.queue:
+            val = self.queue[0]
+            return val
+       
+        return -1
+
+    """
+    @param value: Value of a number.
+    """
+    def add(self, value: int):
+        # --- write your code here ---
+        self.counter[value] += 1
+        if self.counter[value] == 1:
+            self.queue.append(value) 
