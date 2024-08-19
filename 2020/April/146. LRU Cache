@@ -1,0 +1,79 @@
+/**
+ * @param {number} capacity
+ */
+var Node = function(key, val){
+    this.key = key;
+    this.val = val;
+    this.next = null;
+    this.prev = null;
+} 
+var LRUCache = function(capacity) {
+    this.head = new Node(-1,-1);
+    this.tail = new Node(-1,-1);
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+    this.size = 0;
+    this.capacity = capacity;
+    this.cache = {};
+};
+
+
+LRUCache.prototype.removeNode = function(key){
+    let node = this.cache[key];
+    let prevNode = node.prev;
+    let nextNode = node.next;
+    prevNode.next = nextNode;
+    nextNode.prev = prevNode;
+    delete this.cache[key]
+};
+
+LRUCache.prototype.addNode = function(key, val){
+    let node = new Node(key, val);
+    let firstNode = this.head.next;
+    node.next = firstNode;
+    firstNode.prev = node;
+
+    this.head.next = node;
+    node.prev = this.head;
+
+    this.cache[key] = node;
+};
+
+/** 
+ * @param {number} key
+ * @return {number}
+ */
+LRUCache.prototype.get = function(key) {
+    if(!(key in this.cache))
+        return -1;
+    let val = this.cache[key].val;
+    this.removeNode(key);
+    this.addNode(key,val);
+    return val;
+};
+
+/** 
+ * @param {number} key 
+ * @param {number} value
+ * @return {void}
+ */
+LRUCache.prototype.put = function(key, value) {
+    if(key in this.cache){
+        this.removeNode(key);
+        this.addNode(key,value);
+    }else{
+        this.addNode(key,value);
+        this.size += 1
+        if(this.size > this.capacity){
+            this.removeNode(this.tail.prev.key);
+            this.size -= 1;
+        }
+    }
+};
+
+/** 
+ * Your LRUCache object will be instantiated and called as such:
+ * var obj = new LRUCache(capacity)
+ * var param_1 = obj.get(key)
+ * obj.put(key,value)
+ */
