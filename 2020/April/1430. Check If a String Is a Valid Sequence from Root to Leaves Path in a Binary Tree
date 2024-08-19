@@ -1,0 +1,10 @@
+def check(root, arr):
+    def helper(root,i):
+        if i == len(arr) and root is None:
+            return True
+        if i == len(arr) or root is None:
+            return False
+        if root.val != arr[i]:
+            return False
+        return helper(root.left,i+1) or helper(root.right,i+1)
+    return helper(root,0)
