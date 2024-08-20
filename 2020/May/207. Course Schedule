@@ -1,0 +1,27 @@
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+        adjacent_list = defaultdict(list)
+        in_degree = [0] * numCourses
+        for a, b in prerequisites:
+            adjacent_list[b].append(a)
+            in_degree[a] += 1
+        
+        queue = deque([])
+        taken = 0
+        for i in range(numCourses):
+            if in_degree[i] == 0:
+                queue.append(i)
+                taken += 1
+        
+
+        while queue:
+            preCourse = queue.popleft()
+            for nextCourse in adjacent_list[preCourse]:
+                in_degree[nextCourse] -= 1
+                if in_degree[nextCourse] == 0:
+                    queue.append(nextCourse)
+                    taken += 1
+        
+        return taken == numCourses
+        
+
