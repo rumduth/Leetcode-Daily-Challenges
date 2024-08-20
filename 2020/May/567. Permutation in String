@@ -1,0 +1,23 @@
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        alphabet = Counter(s1)
+        must_filled = len(alphabet)
+
+        filled = 0
+        filled_alphabet = Counter()
+        
+        left = 0
+        for right, c in enumerate(s2):
+            filled_alphabet[c] += 1
+            if filled_alphabet[c] == alphabet[c]:
+                filled += 1
+            
+            while filled_alphabet[c] > alphabet[c]:
+                if filled_alphabet[s2[left]] == alphabet[s2[left]]:
+                    filled -= 1
+                filled_alphabet[s2[left]] -= 1
+                left += 1
+            if filled == must_filled:
+                return True
+        
+        return False
