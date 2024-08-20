@@ -1,0 +1,25 @@
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        n = len(people)
+        people.sort(key=lambda x: (-x[0],x[1]))
+        res = [-1] * len(people)
+        for h, k in people:
+            if res[k] == -1:
+                res[k] = [h,k]
+            else:
+                j = n - 1
+                while j - 1 >= k:
+                    res[j] = res[j-1]
+                    j -= 1
+                res[j] = [h,k]
+        return res
+
+
+class Solution:
+    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:
+        n = len(people)
+        people.sort(key=lambda x: (-x[0],x[1]))
+        res = []
+        for p in people:
+           res.insert(p[1],p)
+        return res
