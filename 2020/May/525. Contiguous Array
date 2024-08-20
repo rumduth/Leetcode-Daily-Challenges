@@ -1,0 +1,17 @@
+class Solution:
+    def findMaxLength(self, nums: List[int]) -> int:
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                nums[i] = -1
+        
+        cache = {}
+        cache[0] = -1
+        res = 0
+        cumulativeSum = 0
+        for i in range(len(nums)):
+            cumulativeSum += nums[i]
+            if cumulativeSum in cache:
+                res = max(res,i - cache[cumulativeSum])
+            else:
+                cache[cumulativeSum] = i
+        return res
