@@ -1,0 +1,23 @@
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        res = []
+        alphabet = Counter(p)
+        must_filled = len(alphabet)
+
+        fill = 0
+        left = 0
+        filled_alphabet = Counter()
+        for right, c in enumerate(s):
+            filled_alphabet[c] += 1
+            if filled_alphabet[c] == alphabet[c]:
+                fill += 1
+            while filled_alphabet[c] > alphabet[c]:
+                if filled_alphabet[s[left]] == alphabet[s[left]]:
+                    fill -= 1
+                filled_alphabet[s[left]] -= 1
+                left += 1
+                
+            if fill == must_filled:
+                res.append(left)
+        
+        return res
