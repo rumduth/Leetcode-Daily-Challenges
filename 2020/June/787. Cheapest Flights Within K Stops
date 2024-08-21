@@ -1,0 +1,42 @@
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        INF = float('inf')
+        dp = [INF] * n
+        dp[src] = 0
+        for _ in range(k + 1):
+            temp = dp.copy()
+            for u, v, cost in flights:
+                if dp[u] + cost < temp[v]:
+                    temp[v] = dp[u] + cost
+            dp = temp
+        
+        if dp[dst] == INF:
+            return -1
+        return dp[dst]
+
+
+
+
+class Solution:
+    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+        INF = float('inf')
+        maxStops = k + 1
+        adjacent_lists = defaultdict(list)
+        for u, v, cost in flights:
+            adjacent_lists[u].append((v, cost))
+        
+        queue = deque([(src,0,0)])
+        costs = [INF] * n
+        costs[src] = 0
+        while queue:
+            node, cost, stops = queue.popleft()
+            if stops >= maxStops or node == dst:
+                continue
+            
+            for neighbor, expense in adjacent_lists[node]:
+                new_cost = cost + expense
+                if new_cost < costs[neighbor]:
+                    costs[neighbor] = new_cost
+                    queue.append((neighbor,new_cost, stops + 1))
+            
+        return -1 if costs[dst] == INF else costs[dst]
