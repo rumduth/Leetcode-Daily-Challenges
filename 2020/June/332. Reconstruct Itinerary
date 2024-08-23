@@ -1,0 +1,39 @@
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        tickets.sort()
+        adjacent_list = defaultdict(lambda: defaultdict(int))
+        for u, v in tickets:
+            adjacent_list[u][v] += 1
+        sequence = ["JFK"]
+
+        def backtrack(node):
+            if len(sequence) == len(tickets) + 1:
+                return True
+            for neighbor in adjacent_list[node]:
+                if adjacent_list[node][neighbor] == 0:
+                    continue
+                sequence.append(neighbor)
+                adjacent_list[node][neighbor] -= 1
+                if backtrack(neighbor):
+                    return True
+                adjacent_list[node][neighbor] += 1
+                sequence.pop()
+            return False
+
+        backtrack("JFK")
+        return sequence
+
+class Solution:
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        graph = defaultdict(list)
+        for u, v in sorted(tickets, reverse=True):
+            graph[u].append(v)
+        
+        res = []
+        def dfs(src):
+            while graph[src]:
+                dfs(graph[src].pop())
+            res.append(src)
+        
+        dfs("JFK")
+        return res[::-1]
