@@ -1,0 +1,14 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> int:
+        res = 0
+        for i in range(32):
+            bits = 0
+            for num in nums:
+                bits += (num >> i) & 1
+            bit = bits % 3
+            res = res | (bit << i)
+
+        if res >= 2**31:
+            res -= 2**32
+        
+        return res
