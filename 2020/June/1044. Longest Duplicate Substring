@@ -1,0 +1,42 @@
+class rollingHash:
+    def __init__(self):
+        self.prime = 31
+        self.MOD = pow(2,45) - 1
+    
+    def compute_hash(self,s):
+        hash_value = 0
+        for c in s:
+            hash_value = (hash_value * self.prime + ord(c)) % self.MOD
+        return hash_value
+    
+    def update_hash(self, hash_value, old_char, new_char, length):
+        return (hash_value * self.prime + ord(new_char) - ord(old_char) * pow(self.prime,length,self.MOD)) % self.MOD
+class Solution:
+
+    def is_valid_length(self,s,length):
+        rh = rollingHash()
+        seen = set()
+        current_hash = rh.compute_hash(s[:length])
+        seen.add(current_hash)
+        for i in range(length, len(s)):
+            current_hash = rh.update_hash(current_hash,s[i-length],s[i],length)
+            if current_hash in seen:
+                return s[i-length+1:i+1]
+            seen.add(current_hash)
+        return ""
+
+    def longestDupSubstring(self, s: str) -> str:
+        left = 0
+        right = len(s) - 1
+        res = ""
+        while left < right:
+            middle = (left + right + 1) >> 1
+            cand = self.is_valid_length(s,middle)
+            if cand:
+                res = cand
+                left = middle
+            else:
+                right = middle - 1
+        return res
+        
+    
