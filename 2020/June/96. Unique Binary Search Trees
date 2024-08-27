@@ -1,0 +1,18 @@
+class Solution:
+    def numTrees(self, n: int) -> int:
+        left = 1
+        right = n
+        cache = {}
+        def helper(left, right):
+            if left >= right:
+                return 1
+            if (left,right) in cache:
+                return cache[(left,right)]
+            cnt = 0
+            for i in range(left, right+1):
+                left_tree = helper(left,i-1)
+                right_tree = helper(i+1,right)
+                cnt += left_tree * right_tree
+            cache[(left,right)] = cnt
+            return cnt
+        return helper(1,n)
