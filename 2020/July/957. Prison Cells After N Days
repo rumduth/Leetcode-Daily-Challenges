@@ -1,0 +1,32 @@
+class Solution:
+    def prisonAfterNDays(self, cells: List[int], n: int) -> List[int]:
+        cache = {}
+        memo = {}
+        n -= 1
+        def helper():
+            new_cels = [0] * 8
+            for i in range(1,7):
+                new_cels[i] = 1 if cells[i-1] == cells[i+1] else 0
+            return new_cels
+        cells = helper()
+        i = 0
+        length = 0
+        while True:
+            pattern = ''.join(map(str,cells))
+            if pattern not in cache:
+                cache[pattern] = i
+                memo[i] = pattern
+                if i == n:
+                    return [int(d) for d in pattern]
+                i += 1
+                cells = helper()
+            else:
+                length = i - 1 - cache[pattern] + 1
+                start_point = cache[pattern]
+                break
+        
+        index = (n - start_point) % length
+        return [int(d) for d in memo[index]]
+            
+
+            
