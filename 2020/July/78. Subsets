@@ -1,0 +1,14 @@
+class Solution:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        sequence = []
+        def backtrack(i):
+            res.append(sequence[:])
+            for j in range(i, len(nums)):
+                sequence.append(nums[j])
+                backtrack(j+1)
+                sequence.pop()
+        
+        backtrack(0)
+        return res
+            
