@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        long long res = 0;
+        while(res * (res + 1) / 2 <= 1ll * n) res += 1;
+        return res - 1;
+
+    }
+};
+
+
+
+class Solution {
+public:
+    int arrangeCoins(int n) {
+        int left = 0;
+        int right = n;
+        while(left < right){
+            long long middle = left + (right - left) / 2;
+            long long curr = middle * (middle + 1) / 2;
+            if(curr < n)
+                left = middle + 1;
+            else
+                right = middle;
+        }
+        long long curr = 1ll * left * (left + 1) / 2;
+        if(curr <= n)
+            return left;
+        return left - 1;
+
+    }
+};
