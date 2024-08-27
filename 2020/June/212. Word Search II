@@ -1,0 +1,53 @@
+class Node:
+    def __init__(self):
+        self.children = [None] * 26
+        self.isWord = False
+        self.word = None
+class Trie:
+    def __init__(self):
+        self.root = Node()
+    
+    def add(self, word):
+        r = self.root
+        for c in word:
+            index = ord(c) - ord('a')
+            if not r.children[index]:
+                r.children[index] = Node()
+            r = r.children[index]
+        r.isWord = True
+        r.word = word
+
+    def getRoot(self):
+        return self.root
+
+    def search(self,r, c, board, visited, root):
+        m = len(board)
+        n = len(board[0])
+        if r < 0 or r == m or c < 0 or c == n or board[r][c] == '.':
+            return
+        index = ord(board[r][c]) - ord('a')
+        if not root.children[index]:
+            return
+        if root.children[index].isWord:
+            visited.add(root.children[index].word)
+            root.children[index].isWord = False
+        currentChar = board[r][c]
+        board[r][c] = '.'
+        self.search(r+1,c,board,visited,root.children[index])
+        self.search(r-1,c,board,visited,root.children[index])
+        self.search(r,c+1,board,visited,root.children[index])
+        self.search(r,c-1,board,visited,root.children[index])
+        board[r][c] = currentChar
+
+class Solution:
+    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
+        trie = Trie()
+        for word in words:
+            trie.add(word)
+        visited = set()
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                trie.search(i,j,board,visited, trie.getRoot())
+        
+        return list(visited)
+        
