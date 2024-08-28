@@ -1,0 +1,15 @@
+class Solution:
+    def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
+        
+        res = []
+        sequence = [0]
+        def backtrack(u, v):
+            if u == v:
+                res.append(sequence[:])
+                return
+            for neighbor in graph[u]:
+                sequence.append(neighbor)
+                backtrack(neighbor,v)
+                sequence.pop()
+        backtrack(0,len(graph)-1)
+        return res
