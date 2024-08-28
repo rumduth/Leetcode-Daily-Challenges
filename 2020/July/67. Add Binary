@@ -1,0 +1,49 @@
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        res = [0] * (max(len(a),len(b)) + 1)
+        i = len(a) - 1
+        j = len(b) - 1
+        k = len(res) - 1
+        carry = 0
+        while i >= 0 and j >= 0:
+            sumDigit = ord(a[i]) - ord('0') + ord(b[j]) - ord('0') + carry
+            digit = sumDigit % 2
+            carry = sumDigit // 2
+            res[k] = digit
+            i -= 1
+            j -= 1
+            k -= 1
+        while i >= 0:
+            sumDigit = ord(a[i]) - ord('0') + carry
+            digit = sumDigit % 2
+            carry = sumDigit // 2
+            res[k] = digit
+            i -= 1
+            k -= 1
+        while j >= 0:
+            sumDigit = ord(b[j]) - ord('0') + carry
+            digit = sumDigit % 2
+            carry = sumDigit // 2
+            res[k] = digit
+            j -= 1
+            k -= 1
+    
+        if carry == 1:
+            res[0] = 1
+            return ''.join(map(str,res))
+        return ''.join(map(str,res[1:]))
+
+
+
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        result = []
+        pointer_a, pointer_b, carry = len(a) - 1, len(b) - 1, 0
+        while pointer_a >= 0 or pointer_b >= 0 or carry:
+            carry += (0 if pointer_a < 0 else int(a[pointer_a])) + (0 if pointer_b < 0 else int(b[pointer_b]))
+            carry, value = divmod(carry, 2)
+            result.append(str(value))
+            pointer_a -= 1
+            pointer_b -= 1
+        
+        return "".join(result[::-1])
