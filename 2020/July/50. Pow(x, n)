@@ -1,0 +1,21 @@
+class Solution {
+public:
+    double exponent(double base, long long power){
+        double res = 1;
+        while(power >= 1){
+            if(power % 2 == 1){
+                res *= base;
+                power -= 1;
+            }
+            base = base * base;
+            power /= 2;
+        }
+        return res ;
+    }
+    double myPow(double x, int n) {
+        if(n < 0){
+            x = 1 / x;
+        }
+        return exponent(x,abs(1ll * n));
+    }
+};
