@@ -1,0 +1,20 @@
+class Solution:
+    def singleNumber(self, nums: List[int]) -> List[int]:
+        aXORb = 0
+        for num in nums:
+            aXORb ^= num
+        
+        first_one_pos = aXORb & (-aXORb)
+        
+        a = 0
+        b = 0
+        for num in nums:
+            if num & first_one_pos:
+                a ^= num
+            else:
+                b ^= num
+       
+       
+        return [a,b]
+
+
