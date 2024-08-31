@@ -1,0 +1,45 @@
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        words = set(wordDict)
+        sequence = []
+        res = []
+
+        def backtrack(i):
+            if i == len(s):
+                res.append(' '.join(sequence[:]))
+                return
+            for j in range(i,len(s) + 1):
+                word = s[i:j]
+                if word in words:
+                    sequence.append(word)
+                    backtrack(j)
+                    sequence.pop()
+
+
+        backtrack(0)
+        return res
+
+
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:
+        words = set(wordDict)
+        n = len(s)
+        dp = [[False] * n for _ in range(n)]
+        for i in range(n):
+            for j in range(i+1,n+1):
+                if s[i:j] in words:
+                    dp[i][j-1] = True
+        res = []
+        seq = []
+        def backtrack(i):
+            if i == len(s):
+                res.append(' '.join(seq))
+                return 
+            for j in range(i+1,n + 1):
+                if dp[i][j-1]:
+                    seq.append(s[i:j])
+                    backtrack(j)
+                    seq.pop()
+        
+        backtrack(0)
+        return res
