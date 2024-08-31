@@ -1,0 +1,50 @@
+class MyHashSet:
+    class Node:
+        def __init__(self, val):
+            self.val = val
+            self.next = None
+
+    def __init__(self):
+        self.p = 19
+        self.buckets = [self.Node(-1) for _ in range(self.p)]
+
+    def add(self, key: int) -> None:
+        index = key % self.p
+        node = self.buckets[index]
+        prev = node
+        current = node.next
+        while current:
+            if current.val == key:
+                return
+            prev = current
+            current = current.next
+        prev.next = self.Node(key)
+
+    def remove(self, key: int) -> None:
+        index = key % self.p
+        node = self.buckets[index]
+        prev = node
+        current = node.next
+        while current:
+            if current.val == key:
+                prev.next = current.next
+                return
+            prev = current
+            current = current.next
+
+    def contains(self, key: int) -> bool:
+        index = key % self.p
+        node = self.buckets[index]
+        node = node.next
+        while node:
+            if node.val == key:
+                return True
+            node = node.next
+        return False
+
+
+# Your MyHashSet object will be instantiated and called as such:
+# obj = MyHashSet()
+# obj.add(key)
+# obj.remove(key)
+# param_3 = obj.contains(key)
