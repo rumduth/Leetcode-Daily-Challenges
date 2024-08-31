@@ -1,0 +1,24 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+        orders = defaultdict(list)
+     
+        def dfs(root,r,c):
+            if root is None:
+                return
+            orders[c].append((root.val,r))
+            dfs(root.left,r+1,c-1)
+            dfs(root.right,r+1,c+1)
+        dfs(root,0,0)
+        orders = [x[1] for x in sorted(orders.items(), key=lambda x: x[0])]
+        res = []
+        for i in range(len(orders)):
+            orders[i] = sorted(orders[i], key=lambda x: (x[1],x[0]))
+            res.append([x[0] for x in orders[i]])
+        
+        return res
