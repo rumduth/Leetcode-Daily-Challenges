@@ -1,0 +1,30 @@
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        max_heap = []
+        frequencies = Counter(tasks)
+        for value in frequencies.values():
+            heapq.heappush(max_heap, -value)
+        
+        queue = deque([])
+        days = 1
+        while max_heap or queue:
+            while queue and queue[0][1] <= days:
+                heapq.heappush(max_heap, queue.popleft()[0])
+            if max_heap:
+                freq = heapq.heappop(max_heap)
+                if freq + 1 < 0:
+                    queue.append((freq + 1, days + n + 1))
+            days += 1
+        return days - 1
+                
+
+class Solution:
+    def leastInterval(self, tasks: List[str], n: int) -> int:
+        task_counts = Counter(tasks)
+        max_freq = max([val for val in task_counts.values()])
+        number_tasks_max_freq = 0
+        for freq in task_counts.values():
+            if freq == max_freq:
+                number_tasks_max_freq += 1
+        
+        return max(len(tasks), (max_freq - 1) * (n+1) + number_tasks_max_freq)
