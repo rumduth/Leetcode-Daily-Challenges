@@ -1,0 +1,41 @@
+class Solution:
+    def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
+        visited = set()
+        queue = deque([str(i) for i in range(1,10)])
+        res = []
+        while queue:
+            num = queue.popleft()
+            if len(num) == n:
+                res.append(int(num))
+            lastNum = int(num[len(num) - 1])
+            if lastNum + k < 10 and len(num) < n and (num + str(lastNum+k)) not in visited:
+                visited.add(num + str(lastNum+k))
+                queue.append(num + str(lastNum+k))
+            if lastNum - k >= 0 and len(num) < n and (num + str(lastNum-k)) not in visited:
+                visited.add(num + str(lastNum-k))
+                queue.append(num + str(lastNum-k))
+        
+        return res
+
+
+
+class Solution:
+    def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
+        res = []
+        def dfs(num):
+            if len(num) == n:
+                res.append(int(num))
+                return
+            lastNum = int(num[-1])
+            if k == 0:
+                dfs(num + str(lastNum))
+                return
+            if lastNum + k <= 9:
+                dfs(num + str(lastNum + k))
+            if lastNum - k >= 0:
+                dfs(num + str(lastNum - k))
+
+        for i in range(1,10):
+            dfs(str(i))
+        
+        return res
