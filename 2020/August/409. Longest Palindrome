@@ -1,0 +1,15 @@
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        counter = Counter(s)
+        even = 0
+        odd = 0
+        print(counter)
+        for val in counter.values():
+            if val % 2 == 0:
+                even += val
+            else:
+                odd = max(odd, val)
+                even += val - 1
+        if odd > 0:
+            even += 1
+        return even
