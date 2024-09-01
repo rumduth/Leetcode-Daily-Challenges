@@ -1,0 +1,39 @@
+class CombinationIterator:
+
+    def __init__(self, characters: str, k: int):
+        self.currentCombination = characters[:k]
+        self.has_next = True
+        self.k = k
+        self.originalString = characters
+        self.currentIndex = [x for x in range(k)]
+        self.maxIndex = [len(self.originalString) - k + i for i in range(k)]
+
+    def next(self) -> str:
+        res = self.get_next_combination()
+        i = self.k - 1
+        while i >= 0 and self.currentIndex[i] == self.maxIndex[i]:
+                i -= 1
+        if i == -1:
+            self.has_next = False
+        else:
+            self.currentIndex[i] += 1
+            i = i + 1
+            while i < self.k:
+                self.currentIndex[i] = self.currentIndex[i-1] + 1
+                i += 1
+        return res
+
+    
+    def get_next_combination(self):
+        current = [self.originalString[i] for i in self.currentIndex]
+        return "".join(current)
+
+
+    def hasNext(self) -> bool:
+        return self.has_next
+
+
+# Your CombinationIterator object will be instantiated and called as such:
+# obj = CombinationIterator(characters, combinationLength)
+# param_1 = obj.next()
+# param_2 = obj.hasNext()
