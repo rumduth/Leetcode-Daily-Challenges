@@ -1,0 +1,11 @@
+class Solution:
+    def toGoatLatin(self, sentence: str) -> str:
+        words = sentence.split()
+        res = []
+        for i, w in enumerate(words):
+            if w[0] in "aeiouAEIOU":
+                res.append(w + "ma" + 'a' * (i+1) )
+            else:
+                res.append(w[1:] + w[0] + "ma" + 'a' * (i + 1))
+            
+        return ' '.join(res)
