@@ -1,0 +1,32 @@
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        queue = deque([])
+        m = len(grid)
+        n = len(grid[0])
+        rotten_oranges = 0
+        total_oranges = 0
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 2:
+                    rotten_oranges += 1
+                    queue.append((i,j,0))
+                if grid[i][j] == 1 or grid[i][j] == 2:
+                    total_oranges += 1
+
+        if total_oranges == 0:
+            return 0
+        
+        directions = (0,-1,0,1,0)
+        count_oranges_rotten = 0
+        while queue:
+            r, c, time = queue.popleft()
+            count_oranges_rotten += 1
+            if count_oranges_rotten == total_oranges:
+                return time
+            for i in range(4):
+                new_r = r + directions[i]
+                new_c = c + directions[i+1]
+                if new_r >= 0 and new_r < m and new_c >= 0 and new_c < n  and grid[new_r][new_c] == 1:
+                    grid[new_r][new_c] = 2
+                    queue.append((new_r,new_c,time+1))
+        return -1
