@@ -1,0 +1,26 @@
+class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        myarr = []
+        for i, (start, end) in enumerate(intervals):
+            myarr.append((start,end,i))
+        myarr.sort()
+
+        def helper(target):
+            left = 0
+            right = len(intervals)
+            while left < right:
+                middle = (left + right) >> 1
+                if myarr[middle][0] < target:
+                    left = middle + 1
+                else:
+                    right = middle
+            if left == len(intervals):
+                return -1
+            return myarr[left][2]
+
+
+        res = [-1] * len(intervals)
+
+        for i in range(len(intervals)):
+            res[i] = helper(intervals[i][1])
+        return res
