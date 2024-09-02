@@ -1,0 +1,44 @@
+class Node:
+    def __init__(self):
+        self.children = [None] * 26
+        self.isEnd = False
+
+class StreamChecker:
+    def __init__(self, words: List[str]):
+        self.root = Node()
+        for word in words:
+            self.add(word)
+        self.max_suffix_length = max(len(word) for word in words)
+        self.window = ""
+
+    def add(self, word):
+        r = self.root
+        for i in range(len(word) - 1, -1, -1):
+            index = ord(word[i]) - ord('a')
+            if not r.children[index]:
+                r.children[index] = Node()
+            r = r.children[index]
+        r.isEnd = True
+
+    def search(self):
+        r = self.root
+        for i in range(len(self.window) - 1, -1, -1):
+            index = ord(self.window[i]) - ord('a')
+            if not r.children[index]:
+                return False
+            r = r.children[index]
+            if r.isEnd:
+                return True
+        return r.isEnd
+
+    def query(self, letter: str) -> bool:
+        if len(self.window) < self.max_suffix_length:
+            self.window = self.window + letter
+        else:
+            self.window = self.window[1:] + letter
+        return self.search()
+
+
+# Your StreamChecker object will be instantiated and called as such:
+# obj = StreamChecker(words)
+# param_1 = obj.query(letter)
