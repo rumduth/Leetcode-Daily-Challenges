@@ -1,0 +1,28 @@
+class UnionFind:
+    def __init__(self,size):
+        self.parent = list(range(size))
+    
+    def find(self, x):
+        if x != self.parent[x]:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union(self, x, y):
+        root_x = self.find(x)
+        root_y = self.find(y)
+        if root_x != root_y:
+            self.parent[root_y] = root_x
+
+class Solution:
+    def largestComponentSize(self, nums: List[int]) -> int:
+        uf = UnionFind(max(nums) + 1)
+        for num in nums:
+            factor = 2
+            while factor * factor <= num:
+                if num % factor == 0:
+                    uf.union(factor, num)
+                    uf.union(factor, num // factor)
+                factor += 1
+        
+        components = Counter([uf.find(x) for x in nums])
+        return max(components.values())
