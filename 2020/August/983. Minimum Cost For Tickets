@@ -1,0 +1,28 @@
+class Solution:
+    def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+        n = len(days)
+        lastDays = days[n-1]
+
+        dp = [1e9] * (lastDays + 1)
+
+        def binary_search(target):
+            left = 0
+            right = n - 1
+            while left < right:
+                middle = (left + right) >> 1
+                if days[middle] <= target:
+                    left = middle + 1
+                else:
+                    right = middle
+            return days[left - 1]
+
+        start_day = days[0]
+        for day in days:
+            for cost, interval in zip(costs,[1,7,30]):
+                previous_day = day - interval
+                if previous_day < start_day:
+                    dp[day] = min(dp[day], cost)
+                else:
+                    index = binary_search(previous_day)
+                    dp[day] = min(dp[day], dp[index] + cost)
+        return dp[lastDays]
