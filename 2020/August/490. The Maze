@@ -1,0 +1,42 @@
+from typing import (
+    List,
+)
+from collections import deque
+
+class Solution:
+    """
+    @param maze: the maze
+    @param start: the start
+    @param destination: the destination
+    @return: whether the ball could stop at the destination
+    """
+    def has_path(self, maze: List[List[int]], start: List[int], destination: List[int]) -> bool:
+        # write your code here
+        directions = [(0,1),(1,0),(0,-1),(-1,0)]
+        m, n = len(maze), len(maze[0])
+        queue = deque([])
+        visited = set()
+        visited.add(tuple(start))
+        for d in directions:
+            r,c = start
+            queue.append((r,c,d))
+            
+       
+        while queue:
+            r, c, (v_r, v_c) = queue.popleft()
+            if r == destination[0] and c == destination[1]:
+                return True
+            while 0 <= r + v_r < m and 0 <= c + v_c < n and maze[r + v_r][c + v_c] == 0:
+                r += v_r
+                c += v_c
+            if (r,c) not in visited:
+                visited.add((r,c))
+                for pair in directions:
+                    if (v_r,v_c) != pair:
+                        queue.append((r,c,pair))
+        
+        return False
+             
+
+            
+        
