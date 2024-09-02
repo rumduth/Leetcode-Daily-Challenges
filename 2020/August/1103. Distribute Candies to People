@@ -1,0 +1,22 @@
+class Solution:
+    def distributeCandies(self, candies: int, n: int) -> List[int]:
+        res = [0] * n
+        
+        k = 0
+        while k * k * n * n + k * n <= 2 * candies:
+            k += 1
+        k -= 1
+        candies -= (k * k * n * n + k * n) // 2
+        for i in range(n):
+            res[i] = k * (i + 1) + k * (k - 1) * n // 2
+
+        start_round = k * n + 1
+        for i in range(n):
+            if candies >= start_round:
+                res[i] += start_round
+                candies -= start_round
+                start_round += 1
+            else:
+                res[i] += candies
+                break
+        return res
