@@ -1,0 +1,19 @@
+class Solution:
+    def getHint(self, secret: str, guess: str) -> str:
+        bulls = 0
+        cows = 0
+        match_pos = 0
+        total_match = 0
+        
+        c1 = Counter(secret)
+        c2 = Counter(guess)
+
+        for key, val in c1.items():
+            total_match += min(val,c2[key])
+
+        for i in range(len(secret)):
+            if secret[i] == guess[i]:
+                match_pos += 1
+        
+        wrong_pos = total_match - match_pos
+        return f"{match_pos}A{wrong_pos}B"
