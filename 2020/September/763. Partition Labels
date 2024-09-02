@@ -1,0 +1,17 @@
+class Solution:
+    def partitionLabels(self, s: str) -> List[int]:
+        counter = Counter(s)
+        res = []
+        alphabet = Counter()
+        filled = 0
+        left = 0
+        for right, c in enumerate(s):
+            alphabet[c] += 1
+            if alphabet[c] == counter[c]:
+                filled += 1
+            if filled == len(alphabet):
+                res.append(right - left + 1)
+                left = right + 1
+                alphabet.clear()
+                filled = 0
+        return res
