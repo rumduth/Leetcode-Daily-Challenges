@@ -1,0 +1,40 @@
+from lintcode import (
+    TreeNode,
+)
+
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param root: the given BST
+    @param target: the given target
+    @return: the value in the BST that is closest to the target
+    """
+    def closest_value(self, root: TreeNode, target: float) -> int:
+        # write your code here
+        res = None
+        distance = float('inf')
+        def dfs(root):
+            nonlocal res, distance
+            if root is None:
+                return
+            if root.val == target:
+                distance = 0
+                res = root.val
+                return
+            if distance > abs(root.val - target):
+                distance = abs(root.val - target)
+                res = root.val
+            if root.val > target:
+                dfs(root.left)
+            else:
+                dfs(root.right)
+        dfs(root)
+        return res
+        
