@@ -1,0 +1,35 @@
+class Solution:
+
+    def __init__(self, rects: List[List[int]]):
+        self.rects = rects
+        self.prefixArea = [0] * len(rects) 
+        self.area = 0
+        for i,(x1,y1,x2,y2) in enumerate(rects):
+            self.area += (abs(y2-y1) + 1) * (abs(x2 - x1) + 1)
+            self.prefixArea[i] = self.area
+
+    def pickIndex(self):
+        left = 0
+        right = len(self.rects) - 1
+        randomArea = random.randint(1,self.area)
+        while left < right:
+            middle = (left + right) >> 1
+            if self.prefixArea[middle] < randomArea:
+                left = middle + 1
+            else:
+                right = middle
+        return left
+
+
+    def pick(self) -> List[int]:
+        i = self.pickIndex()
+        picked_rect = self.rects[i]
+        x1, y1, x2, y2 = picked_rect
+        u = random.randint(x1,x2)
+        v = random.randint(y1,y2)
+        return [u,v]
+
+
+# Your Solution object will be instantiated and called as such:
+# obj = Solution(rects)
+# param_1 = obj.pick()
