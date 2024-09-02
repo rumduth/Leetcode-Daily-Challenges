@@ -1,0 +1,25 @@
+class Solution:
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        cache1 = {}
+        cache2 = {}
+        words = s.split()
+
+        if len(words) != len(pattern):
+            return False
+        
+        for i in range(len(pattern)):
+            key1 = words[i]
+            key2 = pattern[i]
+            if not key1 in cache1:
+                cache1[key1] = key2
+            else:
+                if cache1[key1] != key2:
+                    return False
+
+            if not key2 in cache2:
+                cache2[key2] = key1
+            else:
+                if cache2[key2] != key1:
+                    return False
+        
+        return True
