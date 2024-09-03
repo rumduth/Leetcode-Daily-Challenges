@@ -1,0 +1,21 @@
+class Solution:
+    def carPooling(self, trips: List[List[int]], capacity: int) -> bool:
+        # 2 1 5: Go from 1 to 5 with 2 people
+        # 3 3 7: 
+        min_heap = []
+        for people, u, v in trips:
+            heapq.heappush(min_heap,(u,1,people))
+            heapq.heappush(min_heap,(v,0,people))
+        
+        taken = 0
+        while min_heap:
+            _, action, people = heapq.heappop(min_heap)
+            if action == 0:
+                taken -= people
+            else:
+                taken += people
+            if taken > capacity:
+                return False
+        return True
+
+            
