@@ -1,0 +1,8 @@
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        alphabet = Counter(s)
+        for c in t:
+            alphabet[c] -= 1
+            if alphabet[c] < 0:
+                return c
+        
