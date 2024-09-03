@@ -1,0 +1,16 @@
+class Solution:
+    def firstMissingPositive(self, nums: List[int]) -> int:
+        n = len(nums)
+        for i in range(n):
+            while nums[i] >= 1 and nums[i] <= n and nums[i] != i + 1:
+                swap_pos = nums[i] - 1
+                if nums[i] == nums[swap_pos]:
+                    break
+                nums[i], nums[swap_pos] = nums[swap_pos], nums[i]
+        
+        for i in range(n):
+            if nums[i] != i + 1:
+                return i + 1
+        return n + 1
+       
+            
