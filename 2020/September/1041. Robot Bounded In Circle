@@ -1,0 +1,17 @@
+class Solution:
+    def isRobotBounded(self, instructions: str) -> bool:
+        directions = [(0,1),(1,0),(0,-1),(-1,0)]
+        index_dir = 0
+        visited = set()
+        x,y = 0, 0
+        for d in instructions:
+            if d == 'G':
+                x += directions[index_dir][0]
+                y += directions[index_dir][1]
+            elif d == 'L':
+                index_dir = (index_dir - 1 + 4) % 4
+            else:
+                index_dir = (index_dir + 1) % 4
+
+        return (x == 0 and y == 0) or index_dir != 0
+
