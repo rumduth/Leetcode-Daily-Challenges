@@ -1,0 +1,19 @@
+class Solution:
+    def sequentialDigits(self, low: int, high: int) -> List[int]:
+        template = "123456789"
+        lowStr = str(low)
+        highStr = str(high)
+
+        len_low = len(lowStr)
+        len_high = len(highStr)
+        res = []
+        for length in range(len_low, len_high + 1):
+            for i in range(length,10):
+                substr = template[i-length:i]
+                if low <= int(substr) <= high:
+                    res.append(int(substr))
+        return res
+
+
+        
+
