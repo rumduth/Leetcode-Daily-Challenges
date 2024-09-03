@@ -1,0 +1,38 @@
+class Node:
+    def __init__(self):
+        self.children = [None,None]
+
+class Trie:
+    def __init__(self):
+        self.root = Node()
+    
+    def add(self, num):
+        r = self.root
+        for i in range(31,-1,-1):
+            index = (num >> i) & 1
+            if not r.children[index]:
+                r.children[index] = Node()
+            r = r.children[index]
+    
+    def get_xor(self, num):
+        r = self.root
+        res = 0
+        for i in range(31,-1,-1):
+            index = 1 - ((num >> i) & 1)
+            if r.children[index]:
+                res = (res << 1) | index
+                r = r.children[index]
+            else:
+                res = (res << 1) | (1 - index)
+                r = r.children[1-index]
+        return res ^ num
+
+class Solution:
+    def findMaximumXOR(self, nums: List[int]) -> int:
+        trie = Trie()
+        res = 0
+        for num in nums:
+            trie.add(num)
+        for num in nums:
+            res = max(res, trie.get_xor(num))
+        return res
