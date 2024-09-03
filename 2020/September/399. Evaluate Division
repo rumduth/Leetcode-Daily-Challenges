@@ -1,0 +1,42 @@
+class UnionFind:
+    def __init__(self):
+        self.parent = {}
+        self.value = {}
+
+    def find(self, x):
+        if x not in self.parent:
+            self.parent[x] = x
+            self.value[x] = 1.0
+        if x != self.parent[x]:
+            p = self.parent[x]
+            self.parent[x] = self.find(p)
+            self.value[x] *= self.value[p]
+        return self.parent[x]
+
+    def union(self, x, y, v):
+        rx, ry = self.find(x), self.find(y)
+        if rx != ry:
+            self.parent[rx] = ry
+            self.value[rx] = v * self.value[y] / self.value[x]
+
+class Solution:
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        uf = UnionFind()
+        
+        # Build the union-find structure
+        for (x, y), v in zip(equations, values):
+            uf.union(x, y, v)
+        
+        # Process queries
+        results = []
+        for x, y in queries:
+            if x not in uf.parent or y not in uf.parent:
+                results.append(-1.0)
+            else:
+                rx, ry = uf.find(x), uf.find(y)
+                if rx != ry:
+                    results.append(-1.0)
+                else:
+                    results.append(uf.value[x] / uf.value[y])
+        
+        return results
