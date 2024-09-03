@@ -1,0 +1,47 @@
+class Solution {
+public:
+    static bool cmp(string& a, string& b){
+        return a + b > b + a;
+    }
+    string join(vector<string>& str){
+        string res = "";
+        for(int i = 0; i < str.size(); i++){
+            res += str[i];
+        }
+        if(res[0] == '0')
+            res = "0";
+        return res;
+    }
+    string largestNumber(vector<int>& nums) {
+        vector<string> str = {};
+        for(int num: nums)
+            str.push_back(to_string(num));
+        sort(str.begin(),str.end(),cmp);
+        return join(str);
+    }
+};
+
+
+
+/**
+ * @param {number[]} nums
+ * @return {string}
+ */
+var largestNumber = function(nums) {
+    nums.sort((a,b) => {
+        return +(b + "" + a) - +(a + "" +b);
+    });
+    if(nums[0] == 0)
+        return "0";
+    return nums.join("");
+};
+
+
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+        def cmp(a, b):
+            return int(str(a) + str(b)) - int(str(b) + str(a))
+        nums.sort(key=functools.cmp_to_key(cmp), reverse=True)
+        if nums[0] == 0:
+            return "0"
+        return "".join([str(num) for num in nums])
