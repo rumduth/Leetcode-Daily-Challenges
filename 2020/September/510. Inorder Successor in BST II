@@ -1,0 +1,103 @@
+285. Inorder Successor in BST
+
+class Solution:
+    """
+    @param: root: The root of the BST.
+    @param: p: You need find the successor node of p.
+    @return: Successor of p.
+    """
+    def inorderSuccessor(self, root, p):
+        # write your code here
+        prev = None
+        res = None
+        def helper(root):
+            nonlocal prev, res
+    
+            if root is None:
+                return
+            helper(root.left)
+            if prev is None:
+                prev = root
+            else:
+                if prev == p:
+                    res = root
+                prev = root
+            helper(root.right)
+        helper(root)
+        return res
+
+
+class Solution:
+    """
+    @param: root: The root of the BST.
+    @param: p: You need find the successor node of p.
+    @return: Successor of p.
+    """
+    def inorderSuccessor(self, root, p):
+        # write your code here
+        successor = None
+        while root:
+            if p.val < root.val:
+                successor = root
+                root = root.left
+            elif p.val > root.val:
+                root = root.right
+            else:
+                root = root.right
+        return successor
+
+
+510. Inorder Successor in BST II
+
+class Solution:
+    """
+    @param node: random node in binary search tree
+    @return: the inorder successor of current node
+    """
+    def inorder_successor(self, node: ParentTreeNode) -> ParentTreeNode:
+        # write your code here
+        successor = None
+        if node.right:
+            node = node.right
+            while node.left:
+                node = node.left
+            return node
+        
+        parent_node = node.parent
+        if parent_node is None:
+            return None
+        if parent_node.left == node:
+            return parent_node
+        
+        grand_parent_node = parent_node.parent
+        if grand_parent_node is None:
+            return None
+        while grand_parent_node:
+            if grand_parent_node.left == parent_node:
+                return grand_parent_node
+            parent_node = grand_parent_node
+            grand_parent_node = grand_parent_node.parent
+       
+        return None
+
+
+class Solution:
+    """
+    @param node: random node in binary search tree
+    @return: the inorder successor of current node
+    """
+    def inorder_successor(self, node: ParentTreeNode) -> ParentTreeNode:
+        # write your code here
+        successor = None
+        if node.right:
+            node = node.right
+            while node.left:
+                node = node.left
+            return node
+        
+        while node.parent:
+            if node.parent.left == node:
+                return node.parent
+            node = node.parent
+        return None
+
