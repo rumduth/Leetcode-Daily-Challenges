@@ -1,0 +1,35 @@
+from typing import (
+    List,
+)
+
+# You can use read4() function by self.read4()
+class Solution(Reader):
+    """
+    @param buf: destination
+    @param n: the number of characters that need to be read
+    @return: the number of characters read
+    """
+    def read(self, buf: List[str], n: int) -> int:
+        # write you code here
+        buf4 = [''] * 4
+        total_read = 0
+        if n == 0:
+            return 0
+        while True:
+            read_chars = self.read4(buf4)
+            if read_chars == 0:
+                break
+            if read_chars <= n:
+                n -= read_chars
+                for i in range(read_chars):
+                    buf[total_read] = buf4[i]
+                    total_read += 1
+            else:
+                for i in range(n):
+                    buf[total_read] = buf4[i]
+                    total_read += 1 
+                break
+        
+        return total_read
+
+        
