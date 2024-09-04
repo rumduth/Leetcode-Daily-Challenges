@@ -1,0 +1,30 @@
+class Solution:
+    def findPairs(self, nums: List[int], k: int) -> int:
+        counter = Counter(nums)
+        if k == 0:
+            return sum(1 if val >= 2 else 0 for val in counter.values())
+        nums.sort()
+        res = 0
+        for num in nums:
+            if num in counter and (num + k) in counter:
+                res += 1
+                del counter[num]
+        
+        return res
+
+
+
+class Solution:
+    def findPairs(self, nums: List[int], k: int) -> int:
+        res = 0
+        nums.sort()
+        n = len(nums)
+        for i in range(n):
+            if i > 0 and nums[i] == nums[i-1]:
+                continue
+            lower_bound_index = bisect.bisect_left(nums, nums[i] + k, i + 1)
+            if lower_bound_index == n or nums[lower_bound_index] != nums[i] + k:
+                continue
+            res += 1
+        return res
+        
