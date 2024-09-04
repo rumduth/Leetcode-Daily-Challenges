@@ -1,0 +1,12 @@
+class Solution:
+    def bitwiseComplement(self, n: int) -> int:
+        if n == 0:
+            return 1
+        res = 0
+        shift = 0
+        while n > 0:
+            bit = 1- n & 1
+            res = bit << shift | res
+            shift += 1
+            n >>= 1
+        return res  
