@@ -1,0 +1,25 @@
+class Solution:
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        intervals.sort()
+        l1, r1 = intervals[0]
+        n = len(intervals)
+        res = 0
+        for i in range(1,n):
+            l2, r2 = intervals[i]
+            if r2 <= r1:
+                continue
+            elif l2 < r1:
+                if l1 == l2:
+                    l1, r1 = l2, r2
+                else:
+                    res += 1
+                    l1, r1 = l2 ,r2
+            else:
+                res += 1
+                l1, r1 = l2, r2
+        return res + 1
+
+
+
+
+
