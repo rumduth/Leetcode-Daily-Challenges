@@ -1,0 +1,30 @@
+class Solution:
+    def minDominoRotations(self, tops: List[int], bottoms: List[int]) -> int:
+        n = len(tops)
+        def helper(val, top, bottom):
+            cnt = 0
+            for i in range(n):
+                if top [i]== val:
+                    continue
+                if bottom[i] != val:
+                    return [False,1e9]
+                cnt += 1
+            return [True, cnt]
+        
+        possible = []
+        
+        a, b = helper(tops[0],tops,bottoms)
+        if a:
+            possible.append(b)
+        a,b = helper(bottoms[0],tops,bottoms)
+        if a:
+            possible.append(b)
+        a, b = helper(tops[0],bottoms,tops)
+        if a:
+            possible.append(b)
+        a, b = helper(bottoms[0],bottoms,tops)
+        if a:
+            possible.append(b)
+        if not possible:
+            return -1
+        return min(possible)
