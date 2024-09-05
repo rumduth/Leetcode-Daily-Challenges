@@ -1,0 +1,17 @@
+class Solution:
+    def buddyStrings(self, s: str, goal: str) -> bool:
+        alphabet1 = Counter(s)
+        alphabet2 = Counter(goal)
+        for i in range(26):
+            if alphabet1[chr(i + ord('a'))] !=  alphabet2[chr(i + ord('a'))]:
+                return False
+        diff = 0
+        for i in range(len(s)):
+            if s[i] != goal[i]:
+                diff += 1
+        
+        if diff == 2:
+            return True
+        if diff == 0:
+            return any(val >= 2 for val in alphabet1.values())
+        return False
