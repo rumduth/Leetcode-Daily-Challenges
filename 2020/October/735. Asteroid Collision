@@ -1,0 +1,29 @@
+class Solution:
+    def asteroidCollision(self, asteroids: List[int]) -> List[int]:
+        n = len(asteroids)
+        stack = []
+        for rock in asteroids:
+            if not stack or stack[-1] < 0 or rock > 0:
+                stack.append(rock)
+                continue
+            
+            
+            current_rock_destroyed = False
+            while stack and stack[-1] > 0:
+                if abs(rock) == stack[-1]:
+                    stack.pop()
+                    current_rock_destroyed = True
+                    break
+                elif stack[-1] < abs(rock):
+                    stack.pop()
+                else:
+                    current_rock_destroyed = True
+                    break
+            if not current_rock_destroyed:
+                stack.append(rock)
+        
+        return stack
+
+               
+        
+
