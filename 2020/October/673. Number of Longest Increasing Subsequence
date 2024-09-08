@@ -1,0 +1,18 @@
+class Solution:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [1] * n
+        subsequences = [1] * n
+        max_length = 1
+        for i in range(n):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    if dp[j] + 1 > dp[i]:
+                        subsequences[i] = subsequences[j]
+                        dp[i] = 1 + dp[j]
+                    elif dp[j] + 1 == dp[i]:
+                        subsequences[i] += subsequences[j]
+            max_length = max(max_length,dp[i])
+        
+
+        return sum(subsequences[i] if max_length == dp[i] else 0 for i in range(n))
