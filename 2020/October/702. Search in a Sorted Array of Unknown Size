@@ -1,0 +1,10 @@
+def search(self, reader, target):
+    left = 0
+    right = 20000
+    while left < right:
+        middle = (left + right) >> 1
+        if reader.get(middle) < target:
+            left = middle + 1
+        else:
+            right = middle
+    return left if reader.get(left) == target else -1
