@@ -1,0 +1,88 @@
+To handle Stone Game IV, let's do Stone Game I, II, III first
+
+877. Stone Game --> always return True. If we have 2n stones and total of scores is odd, Alice can pick only odd and oven indices -> force Bob to pick other parity
+
+1140. Stone Game II
+
+
+class Solution:
+    def stoneGameII(self, piles: List[int]) -> int:
+        n = len(piles)
+        suffix_sum = [0] * n
+        current_sum = 0
+        for i in range(n-1,-1,-1):
+            current_sum += piles[i]
+            suffix_sum[i] = current_sum
+        
+        cache = {}
+        def dfs(i,m):
+            if i >= n:
+                return 0
+            if i + 2 * m >= n:
+                return suffix_sum[i]
+            if (i,m) in cache:
+                return cache[(i,m)]
+            best_score = 0
+            for x in range(1,2 * m + 1):
+                if i + x >= n:
+                    continue
+                opponent_score = dfs(i+x,max(x,m))
+                best_score = max(best_score, suffix_sum[i] - opponent_score)
+
+            cache[(i,m)] = best_score
+            return best_score
+        
+        return dfs(0,1)
+
+
+
+1406. Stone Game III
+class Solution:
+    def stoneGameIII(self, stoneValue: List[int]) -> str:
+        n = len(stoneValue)
+        cache = {}
+        def dfs(alice, i):
+            if i >= n:
+                return 0
+            if (alice, i) in cache:
+                return cache[(alice,i)]
+            res = float('-inf') if alice else float('inf')
+            total = 0
+            for j in range(i, i + 3):
+                if j >= n:
+                    break
+                total += stoneValue[j]
+                if alice:
+                    res = max(res,total + dfs(not alice,j+1))
+                else:
+                    res = min(res, dfs(not alice,j+1))
+            cache[(alice,i)] = res
+            return res
+        
+        alice_score = dfs(True,0)
+        bob_score = sum(stoneValue) - alice_score
+        if alice_score > bob_score:
+            return "Alice"
+        elif alice_score == bob_score:
+            return "Tie"
+        else:
+            return "Bob"
+
+
+
+
+
+
+1510. Stone Game IV
+
+class Solution:
+    def winnerSquareGame(self, n: int) -> bool:
+        dp = [False] * (n + 1)
+        for i in range(1,n+1):
+            j = 1
+            while j * j <= i:
+                if dp[i - j * j] == False:
+                    dp[i] = True
+                j += 1
+        
+        return dp[n]
