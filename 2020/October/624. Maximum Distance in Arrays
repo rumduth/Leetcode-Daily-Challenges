@@ -1,0 +1,27 @@
+def max_distance(arr):
+    min_heap = []
+    max_heap = []
+    for index, subarr in enumerate(arr):
+        i = 0
+        j = len(subarr) - 1
+        heapq.heappush(min_heap,(subarr[i],index))
+        heapq.heappush(max_heap,(-subarr[j],index))
+
+    while min_heap and max_heap:
+        smallest, index_1 = heapq.heappop(min_heap)
+        largest, index_2 = heapq.heappop(max_heap)
+        if index_1 != index_2:
+            return (-largest - smallest)
+        next_smallest = None
+        next_largest = None
+        if min_heap:
+            next_smallest, _ = heapq.heappop(min_heap)
+        if max_heap:
+            next_largest, _ = heapq.heappop(max_heap)
+        if next_smallest and next_largest:
+            return max(-largest -  next_smallest, -next_largest - smallest)
+        elif next_largest:
+            return -next_largest - smallest
+        else:
+            return -largest -  next_smallest
+
