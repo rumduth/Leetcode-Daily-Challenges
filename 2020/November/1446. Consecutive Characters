@@ -1,0 +1,18 @@
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var maxPower = function(s) {
+    let left = 0
+    let res = 0
+    for(let [right, c] of Object.entries(s)){
+        if(c !== s[left]){
+            res = Math.max(right - 1 - left + 1,res);
+            left = right;
+        }else{
+            res = Math.max(right - left + 1,res);
+        }
+    }
+    
+    return res
+};
