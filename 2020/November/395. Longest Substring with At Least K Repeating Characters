@@ -1,0 +1,48 @@
+class Solution:
+    def longestSubstring(self, s: str, k: int) -> int:
+        n = len(s)
+        counter = Counter(s)
+        max_freq = max(counter.values())
+        if max_freq < k:
+            return 0
+        
+        def helper(s):
+            alphabet = Counter(s)
+            filled_alphabet = Counter()
+            must_filled = 0
+            res = 0
+            left = 0
+            for right, c in enumerate(s):
+                filled_alphabet[c] += 1
+                if filled_alphabet[c] == k:
+                    must_filled += 1
+                while left <= right and alphabet[c] < k:
+                    if filled_alphabet[s[left]] == k:
+                        must_filled -= 1
+                    filled_alphabet[s[left]] -= 1
+                    if filled_alphabet[s[left]] == 0:
+                        del filled_alphabet[s[left]]
+                    left += 1
+                if must_filled >= 1 and must_filled == len(filled_alphabet):
+                    print(right)
+                    res = max(right - left + 1, res)
+
+            return res
+
+
+
+
+        res = 0
+        i = 0
+        while i < n:
+            if counter[s[i]] < k:
+                i += 1
+                continue
+            
+            j = i
+            while j < n and counter[s[j]] >= k:
+                j += 1
+            res = max(res, helper(s[i:j]))
+            i = j
+        
+        return res
