@@ -1,0 +1,25 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rob(self, root: Optional[TreeNode]) -> int:
+        if root is None:
+            return 0
+        
+        def helper(root):
+            if root is None:
+                return [0,0]
+            if root.left is None and root.right is None:
+                return [root.val, 0]
+            includeLeft, not_includeLeft = helper(root.left)
+            includeRight, not_includeRight = helper(root.right)
+
+            include_root = root.val + not_includeLeft + not_includeRight
+            not_include_root = max(includeLeft + includeRight, not_includeLeft + not_includeRight,includeLeft + not_includeRight,includeRight +not_includeLeft )
+
+            return [include_root, not_include_root]
+        
+        return max(helper(root))
