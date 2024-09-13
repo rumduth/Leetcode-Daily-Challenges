@@ -1,0 +1,28 @@
+class Solution:
+    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:
+        def cacl_distance(point1, point2):
+            x1, y1 = point1
+            x2, y2 = point2
+            return (x2 - x1) ** 2 + (y2 - y1) ** 2
+
+        points = [p1,p2,p3,p4]
+        counter = Counter()
+        side = float('inf')
+        diagonal = float('-inf')
+        for i in range(4):
+            for j in range(i):
+                distance =  cacl_distance(points[i],points[j])
+                side = min(side, distance)
+                diagonal = max(diagonal,distance)
+                counter[distance] += 1
+        
+        if counter[side] == 4 and counter[diagonal] == 2 and diagonal == 2 * side:
+            return True
+        
+        return False
+            
+    
+
+
+        
+        
