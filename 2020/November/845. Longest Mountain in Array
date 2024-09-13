@@ -1,0 +1,19 @@
+class Solution:
+    def longestMountain(self, nums: List[int]) -> int:
+        n = len(nums)
+        left = [1] * n
+        right = [1] * n
+        for i in range(1,n):
+            if nums[i] > nums[i-1]:
+                left[i] = 1 + left[i-1]
+        
+        for j in range(n-2, -1, -1):
+            if nums[j] > nums[j+1]:
+                right[j] = 1 + right[j+1]
+        
+        res = 0
+        for i in range(1,n-1):
+            if left[i] > 1 and right[i] > 1:
+                res = max(res, left[i] + right[i] - 1)
+        
+        return res
