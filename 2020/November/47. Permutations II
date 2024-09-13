@@ -1,0 +1,23 @@
+class Solution:
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        counter = Counter(nums)
+        res = []
+        seq = []
+        n = len(nums)
+
+        def backtrack():
+            if len(seq) == n:
+                res.append(seq[:])
+                return
+            for val, count in counter.items():
+                if count == 0:
+                    continue
+                seq.append(val)
+                counter[val] -= 1
+                backtrack()
+                seq.pop()
+                counter[val] += 1
+            
+        
+        backtrack()
+        return res
