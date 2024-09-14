@@ -1,0 +1,15 @@
+class Solution:
+    def canReach(self, arr: List[int], start: int) -> bool:
+        n = len(arr)
+        
+        visited = set()
+        def dfs(start):
+            if start in visited or start >= n or start < 0:
+                return False
+
+            if arr[start] == 0:
+                return True
+            visited.add(start)
+            return dfs(start + arr[start]) or dfs(start - arr[start])
+        
+        return dfs(start)
