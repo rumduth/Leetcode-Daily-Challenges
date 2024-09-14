@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int smallestRepunitDivByK(int k) {
+        
+        if(k % 2 == 0)
+            return -1;
+        int p = 0;
+        int cnt = 0;
+        unordered_map<int,bool> cache;
+        while(true){
+            p = (p * 10 + 1) % k;
+            cnt += 1;
+            if(cache.find(p) != cache.end())
+                return -1;
+            cache[p] = true;
+            if(p == 0)
+                return cnt;
+        }
+        return cnt;
+        
+    }
+};
