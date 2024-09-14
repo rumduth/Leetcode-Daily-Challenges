@@ -1,0 +1,34 @@
+class Solution {
+public:
+    /*
+    For this type of problem, we should use stack, and when we push the element onto stack, it should contains prevElement and something like co-efficient of the current-element
+    */
+    string make_string(string& s, int n){
+        string concat = "";
+        for(int i = 0; i < n; i++)
+            concat += s;
+        return concat;
+    }
+
+    string decodeString(string s) {
+        stack<pair<int,string>> my_stack;
+        int current_number = 0;
+        string current_string = "";
+        for(int i = 0; i < s.length(); i++){
+            if(isdigit(s[i]))
+                current_number = current_number * 10 + (s[i] - '0');
+            else if(isalpha(s[i]))
+                current_string.push_back(s[i]);
+            else if(s[i] == '['){
+                my_stack.push({current_number, current_string});
+                current_number = 0;
+                current_string = "";
+            }else{
+                auto [prevNumber, prevString] = my_stack.top();
+                my_stack.pop();
+                current_string = prevString + make_string(current_string,prevNumber);
+            }
+        }
+        return current_string;
+    }
+};
