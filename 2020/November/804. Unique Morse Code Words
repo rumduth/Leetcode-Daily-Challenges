@@ -1,0 +1,11 @@
+class Solution:
+    def uniqueMorseRepresentations(self, words: List[str]) -> int:
+        code = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+        counter = Counter()
+        for word in words:
+            hash_str = ""
+            for c in word:
+                hash_str += code[ord(c) - ord('a')]
+            counter[hash_str] += 1
+        
+        return len(counter)
