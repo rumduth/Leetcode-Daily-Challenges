@@ -1,0 +1,7 @@
+class Solution:
+    def poorPigs(self, buckets: int, minutesToDie: int, minutesToTest: int) -> int:
+        rounds = minutesToTest // minutesToDie
+        p = 0
+        while (rounds + 1) ** p < buckets:
+            p+=1
+        return p 
