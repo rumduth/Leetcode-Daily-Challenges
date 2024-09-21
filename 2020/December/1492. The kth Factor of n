@@ -1,0 +1,24 @@
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number}
+ */
+var kthFactor = function(n, k) {
+    let factors = [];
+    for(let i = 1; i <= Math.sqrt(n); i++){
+        if(n % i == 0){
+            if(n / i != i){
+                factors.push(i);
+                factors.push((n / i));
+            }else{
+                factors.push(i);
+            }
+        }
+    }
+    factors.sort((a,b) => a - b);
+    if(factors.length < k)
+        return -1;
+    return factors[k-1];
+        
+    
+};
