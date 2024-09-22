@@ -1,0 +1,24 @@
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var removeDuplicates = function(nums) {
+    let left = 1;
+    let maximum_k = 2;
+    let k = 1;
+    for(let right = 1; right < nums.length; right++){
+        if(nums[right] === nums[right-1]){
+            if(k > 0){
+                nums[left] = nums[right];
+                left += 1;
+                k -= 1;
+            }else
+                continue;
+        }else{
+            nums[left] = nums[right];
+            left += 1;
+            k = maximum_k - 1;
+        }
+    }
+    return left;
+};
