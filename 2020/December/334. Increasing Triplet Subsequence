@@ -1,0 +1,28 @@
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+var increasingTriplet = function(nums) {
+    let n = nums.length;
+    let left = new Array(n).fill(0);
+    let right = new Array(n).fill(0);
+
+    let val = nums[0];
+    for(let i = 1; i < n; i++){
+        left[i] = val;
+        val = Math.min(nums[i],val);
+    }
+
+    val = nums[n-1];
+    for(let i = n - 2; i >= 0; i--){
+        right[i] = val;
+        val = Math.max(nums[i],val);
+    }
+  
+    for(let i = 1; i < n - 1; i++){
+        if(left[i] < nums[i] && nums[i] < right[i])
+            return true;
+    }
+    return false;
+
+};
