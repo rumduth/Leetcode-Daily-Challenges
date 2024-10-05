@@ -1,0 +1,26 @@
+class Solution:
+    def cherryPickup(self, grid: List[List[int]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        cache = {}
+
+        def dfs(i, j, k):
+            if i == m:
+                return 0
+            if j < 0 or j >= n or k <= 0 or k >= n:
+                return 0
+            if (i,j,k) in cache:
+                return cache[(i,j,k)]
+
+            cherries = grid[i][j] + (grid[i][k] if j != k else 0)
+            max_cherries = 0
+            for next_j in (j-1,j,j+1):
+                for next_k in (k-1,k,k+1):
+                    max_cherries = max(max_cherries, dfs(i+1,next_j,next_k))
+            
+            cache[(i,j,k)] = max_cherries + cherries
+            return cache[(i,j,k)]
+        
+        return dfs(0,0,n-1)
+
+
