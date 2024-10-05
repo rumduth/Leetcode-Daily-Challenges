@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int minJumps(vector<int>& nums) {
+        int n = nums.size();
+        unordered_map<int, vector<int>> cluster;
+        for(int i = 0; i < n; i++) cluster[nums[i]].push_back(i);
+        queue<int> q;
+        unordered_set<int> visited;
+        visited.insert(0);
+        q.push(0);
+        int step = 0;
+        while(!q.empty()){
+            int size = q.size();
+            for(int i = 0; i < size; i++){
+                auto node = q.front();
+                q.pop();
+                if(node == n - 1)
+                    return step;
+                if(node - 1 >= 0 && visited.find(node-1) == visited.end()){
+                    q.push(node - 1);
+                    visited.insert(node - 1);
+                }
+                if(node + 1 < n && visited.find(node+1) == visited.end()){
+                    q.push(node + 1);
+                    visited.insert(node + 1);
+                }
+                for(auto next_node : cluster[nums[node]]){
+                    if(visited.find(next_node) == visited.end()){
+                        visited.insert(next_node);
+                        q.push(next_node);
+                    }
+                }
+                cluster[nums[node]].clear();
+            }
+            step += 1;
+        }
+        return -1;
+
+    }
+};
