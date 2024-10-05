@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<pair<int,int>> directions = {{-1,0},{1,0},{0,-1},{0,1},{-1,1},{-1,-1},{1,1},{1,-1}};
+
+    void helper(vector<vector<int>>& board, int r, int c){
+        int live_neighbors = 0;
+        for(int i = 0; i < 8; i++){
+            int neighbor_row = r + directions[i].first;
+            int neighbor_col = c + directions[i].second;
+            if(neighbor_row < 0 || neighbor_row >= board.size() || neighbor_col < 0 || neighbor_col >= board[0].size())
+                continue;
+            if(board[neighbor_row][neighbor_col] == 1 || board[neighbor_row][neighbor_col] == 2 || board[neighbor_row][neighbor_col] == 3) live_neighbors += 1;
+        }
+        if(board[r][c] == 1){
+            if(live_neighbors < 2) board[r][c] = 2;
+            else if(live_neighbors > 3) board[r][c] = 2;
+            else board[r][c] = 3;
+        }else{
+            if(live_neighbors == 3) board[r][c] = 4;
+            else board[r][c] = 5;
+        }
+    }
+
+    void gameOfLife(vector<vector<int>>& board) {
+        /*
+        There are some condition:
+        Live -> Die: 2
+        Live -> Live: 3
+        Die -> Live: 4
+        Die -> Die: 5
+        */
+
+        for(int i = 0; i < board.size(); i++){
+            for(int j = 0; j < board[0].size(); j++){
+                helper(board, i, j);
+            }
+        }
+        for(int i = 0; i < board.size(); i++){
+            for(int j = 0; j < board[0].size(); j++){
+                if(board[i][j] == 2 || board[i][j] == 5) board[i][j] = 0;
+                else board[i][j] = 1;
+            }
+        }
+        return;
+    }
+};
