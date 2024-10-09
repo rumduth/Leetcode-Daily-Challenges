@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maxOperations(vector<int>& nums, int k) {
+        unordered_map<int, int> m;
+        for(auto n: nums) m[n]++;
+        int res = 0;
+        for(auto num : nums){
+            if(num == k - num){
+                if(m[num] > 1){
+                    res += 1;
+                    m[num] -= 2;
+                }
+                continue;
+            }
+            if(m.count(k - num)){
+                int pairs = min(m[num],m[k-num]);
+                res += pairs;
+                m[num] -= pairs;
+                m[k-num] -= pairs;
+            }
+        }
+        return res;
+    }
+};
