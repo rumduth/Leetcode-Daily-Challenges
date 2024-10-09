@@ -1,0 +1,43 @@
+class BinaryIndexTree{
+private:
+    int size;
+    vector<int> tree;
+public:
+    BinaryIndexTree(int size){
+        this->size = size;
+        this->tree.resize(size + 1, 0);
+    }
+    void update(int index, int val){
+        while(index <= this->size){
+            tree[index] += val;
+            index += index & (-index);
+        }
+    }
+    int query(int index){
+        int res = 0;
+        while(index){
+            res += tree[index];
+            index -= index & (-index);
+        }
+        return res;
+    }
+};
+
+class Solution {
+public:
+    int createSortedArray(vector<int>& instructions) {
+        int MOD = 1e9 + 7;
+        int size = 0;
+        for(auto val: instructions) size = max(size, val);
+
+        auto tree = new BinaryIndexTree(size);
+        int res = 0;
+        for(int i = 0; i < instructions.size(); i++){
+            int val = instructions[i];
+            res = (res + min(tree->query(val - 1), i - tree->query(val))) % MOD;
+            tree->update(val,1);
+        }
+        return res;
+
+    }
+};
