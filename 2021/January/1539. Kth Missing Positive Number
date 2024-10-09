@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int findKthPositive(vector<int>& nums, int k) {
+        int left = 0;
+        int right = nums.size();
+        while(left < right){
+            int middle = (left + right) >> 1;
+            int missing_count = nums[middle] - (middle + 1);
+            if(missing_count < k) left = middle + 1;
+            else right = middle;
+        }
+        if(left == 0) return k;
+        int missing_before_left = nums[left-1] - left;
+        k -= missing_before_left;
+        return nums[left-1] + k;
+    }
+};
+
