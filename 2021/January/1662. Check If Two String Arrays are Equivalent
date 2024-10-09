@@ -1,0 +1,11 @@
+class Solution {
+public:
+    string join(vector<string>& word){
+        string res = "";
+        for(auto str: word) res += str;
+        return res;
+    }
+    bool arrayStringsAreEqual(vector<string>& word1, vector<string>& word2) {
+        return join(word1) == join(word2);
+    }
+};
