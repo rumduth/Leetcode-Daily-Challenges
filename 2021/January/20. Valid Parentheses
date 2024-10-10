@@ -1,0 +1,18 @@
+class Solution:
+    def isValid(self, s: str) -> bool:
+        def test(a,b):
+            if [a,b] in [['(',')'], ['{','}'], ['[',']']]:
+                return True
+            return False
+        
+        my_stack = []
+        for item in s:
+            n = len(my_stack)
+            if n == 0:
+                my_stack.append(item)
+            elif test(my_stack[n-1],item):
+                my_stack.pop()
+            else:
+                my_stack.append(item)
+        
+        return len(my_stack) == 0
