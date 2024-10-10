@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool closeStrings(string word1, string word2) {
+        if(word1.length() != word2.length()) return false;
+
+        unordered_map<int, int> counter1;
+        for(auto c : word1) counter1[c]++;
+
+        unordered_map<int, int> counter2;
+        for(auto c: word2){
+            counter2[c]++;
+            if(!counter1.count(c)) return false;
+        }
+        if(counter1.size() != counter2.size()) return false;
+        unordered_map<int, int> freq;
+        for(auto p: counter1){
+            freq[p.second]++;
+        }
+        for(auto p : counter2){
+            freq[p.second]--;
+            if(freq[p.second] < 0) return false;
+        }
+        return true;
+    }
+};
