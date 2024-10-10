@@ -1,0 +1,41 @@
+class Solution {
+private:
+    bool isValid(int k, vector<vector<int>>& heights){
+        vector<pair<int,int>> dir = {{-1,0},{1,0},{0,-1},{0,1}};
+        queue<pair<int,int>> q;
+        int m = heights.size();
+        int n = heights[0].size();
+        vector<vector<bool>> visited(m, vector<bool>(n,false));
+        visited[0][0] = true;
+        q.push({0,0});
+        while(!q.empty()){
+            auto node = q.front();
+            q.pop();
+            auto cur_row = node.first;
+            auto cur_col = node.second;
+            if(cur_row == m - 1 && cur_col == n-1) return true;
+            for(int i = 0; i < 4; i++){
+                auto next_row = cur_row + dir[i].first;
+                auto next_col = cur_col + dir[i].second;
+                if(next_row < 0 || next_row >= m || next_col < 0 || next_col >= n) continue;
+                if(abs(heights[next_row][next_col] - heights[cur_row][cur_col]) > k) continue;
+                if(visited[next_row][next_col]) continue;
+                visited[next_row][next_col] = true;
+                q.push({next_row,next_col});
+            }
+        }
+        return false;
+    }
+
+public:
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int left = 0;
+        int right = 1e6;
+        while(left < right){
+            int middle = (left + right) >> 1;
+            if(!isValid(middle, heights)) left = middle + 1;
+            else right = middle;
+        }
+        return left;
+    }
+};
