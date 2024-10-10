@@ -1,0 +1,33 @@
+/*
+Find the minimum number with k digit from an array
+*/
+
+class Solution {
+public:
+    vector<int> mostCompetitive(vector<int>& nums, int k) {
+        if(k == nums.size()) return nums;
+        k = nums.size() - k;
+        stack<int> st;
+        for(auto num : nums){
+            while(!st.empty() && st.top() > num && k){
+                k--;
+                st.pop();
+            }
+            st.push(num);
+        }
+        while(!st.empty() && k > 0){
+            st.pop();
+            k--;
+        }
+        vector<int> res;
+        while(!st.empty()){
+            res.push_back(st.top());
+            st.pop();
+        }
+        reverse(res.begin(),res.end());
+      
+        return res;
+        
+
+    }
+};
