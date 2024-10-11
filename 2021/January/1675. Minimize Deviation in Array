@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int minimumDeviation(vector<int>& nums) {
+        priority_queue<int> pq;
+        int n = nums.size();
+        int min_val = INT_MAX;
+        for(int i = 0; i < n; i++){
+            if(nums[i] & 1) nums[i] *= 2;
+            min_val = min(min_val, nums[i]);
+            pq.push(nums[i]);
+        }
+
+        int deviation = pq.top() - min_val;
+        while(!pq.empty() && pq.top() % 2 == 0){
+            int val = pq.top() / 2;
+            pq.pop();
+            pq.push(val);
+            min_val = min(min_val, val);
+            deviation = min(deviation, pq.top() - min_val);
+        }
+        return deviation;
+    }
+};
