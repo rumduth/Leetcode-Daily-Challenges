@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<string> get_path_partitioning(string& path){
+        stringstream ss(path);
+        string part;
+        vector<string> res;
+        while(getline(ss,part,'/')){
+            res.push_back(part);
+        }
+        return res;
+    }
+    string get_canonical_path(vector<string>& items){
+        if(items.size() == 0) return "/";
+        reverse(items.begin(),items.end());
+        string res = "/";
+        for(int i = 0; i < items.size(); i++){
+            res = res + items[i] + "/";
+        }
+        res.pop_back();
+        return res;
+    }
+    string simplifyPath(string path) {
+        auto path_items = get_path_partitioning(path);
+        stack<string> st;
+        for(auto item: path_items){
+            if(item == "" || item == ".") continue;
+            if(item == ".."){
+                if(!st.empty()) st.pop();
+                continue;
+            }
+            st.push(item);
+        }
+        vector<string> items;
+        while(!st.empty()){
+            items.push_back(st.top());
+            st.pop();
+        }
+        return get_canonical_path(items);
+    }
+};
