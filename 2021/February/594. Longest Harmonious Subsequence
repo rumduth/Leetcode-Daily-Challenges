@@ -1,0 +1,10 @@
+class Solution {
+public:
+    int findLHS(vector<int>& nums) {
+        unordered_map<int, int> counter;
+        for(auto n: nums) counter[n]++;
+        int res = 0;
+        for(auto num : nums) if(counter.count(num-1)) res = max(res, counter[num] + counter[num-1]);
+        return res;
+    }
+};
