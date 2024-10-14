@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> shortestToChar(string s, char c) {
+        int n = s.length();
+        vector<int> c_pos;
+        for(int i = 0; i < n; i++) if(c == s[i]) c_pos.push_back(i);
+        vector<int> res(n,0);
+        for(int i = 0; i < n; i++){
+            if(s[i] == c) continue;
+       
+            int index = lower_bound(c_pos.begin(),c_pos.end(), i) - c_pos.begin();
+            if(index == c_pos.size()) index -= 1;
+            if(index > 0){
+                int left = c_pos[index-1];
+                int right = c_pos[index];
+                res[i] = min(abs(i - left),abs(i-right));
+            }else{
+                res[i] = abs(i - c_pos[index]);
+            }
+        }
+        return res;
+
+
+    }
+};
