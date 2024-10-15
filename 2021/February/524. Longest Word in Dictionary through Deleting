@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool is_valid(string& s, string& w){
+        int i = 0;
+        int j = 0;
+        while(i < s.length() && j < w.length()){
+            if(s[i] == w[j]){
+                i++;
+                j++;
+            }else{
+                i+=1;
+            }
+        }
+        return j == w.length();
+    }
+    string findLongestWord(string s, vector<string>& dictionary) {
+        int maxLength = 0;
+        string res = "";
+        for(auto w : dictionary){
+            if(is_valid(s,w)){
+                if(w.length() > maxLength){
+                    maxLength = w.length();
+                    res = w;
+                }else if(w.length() == maxLength){
+                    res = min(res,w);
+                }
+            }
+        }
+        return res;
+    }
+};
