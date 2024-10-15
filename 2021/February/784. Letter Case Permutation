@@ -1,0 +1,23 @@
+class Solution {
+private:
+    void dfs(int start, vector<string>& res, string s){
+        if(start == s.length()){
+            res.push_back(s);
+            return;
+        }
+        if(isdigit(s[start])){
+            dfs(start+1,res,s);
+        }else{
+            s[start] = tolower(s[start]);
+            dfs(start+1,res,s);
+            s[start] = toupper(s[start]);
+            dfs(start+1,res,s);
+        }
+    }
+public:
+    vector<string> letterCasePermutation(string s) {
+        vector<string> res;
+        dfs(0,res,s);
+        return res;
+    }
+};
