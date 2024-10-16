@@ -1,0 +1,17 @@
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums) {
+        int n = nums.size();
+        long long original_sum = 1ll * n *(n+1) / 2;
+        long long original_square_sum = 1ll * original_sum * (2 * n + 1) / 3;
+        long long fixed_sum = 0;
+        long long fixed_sequare_sum = 0;
+        for(auto n : nums){
+            fixed_sum += n;
+            fixed_sequare_sum += n * n;
+        }
+        int a =  original_sum - fixed_sum;
+        int b = (original_square_sum - fixed_sequare_sum) / a;
+        return {(b-a)/2,(a+b)/2};
+    }
+};
