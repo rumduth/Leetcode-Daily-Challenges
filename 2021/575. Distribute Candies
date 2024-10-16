@@ -1,0 +1,9 @@
+class Solution {
+public:
+    int distributeCandies(vector<int>& candyType) {
+        unordered_map<int,int> type_count;
+        for(auto candy: candyType) type_count[candy] += 1;
+        int total_candies = candyType.size();
+        return min(total_candies / 2, int(type_count.size()));
+    }
+};
