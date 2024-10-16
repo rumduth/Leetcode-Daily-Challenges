@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int scoreOfParentheses(string s) {
+        stack<int> st;
+        for(auto c: s){
+            if(c == '(') st.push(0);
+            else{
+                int current_score = 0;
+                while(!st.empty() && st.top() != 0){
+                    current_score += st.top();
+                    st.pop();
+                }
+                st.pop();
+                if(current_score == 0) current_score = 1;
+                else current_score *= 2;
+                st.push(current_score);
+            }
+        }
+        int score = 0;
+        while(!st.empty()){
+            score += st.top();
+            st.pop();
+        }
+        return score;
+    }
+};
