@@ -1,0 +1,70 @@
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        def getLength(node):
+            if not node:
+                return 0
+            return 1 + getLength(node.next)
+        
+        length_A = getLength(headA)
+        length_B = getLength(headB)
+        if length_A > length_B:
+            headA, headB = headB, headA
+            length_A, length_B = length_B, length_A
+        
+        moves = length_B - length_A
+        while moves > 0:
+            headB = headB.next
+            moves -= 1
+        
+        while headA and headB:
+            if headA == headB:
+                return headA
+            headA = headA.next
+            headB = headB.next
+        return None
+        
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        function<int(ListNode*)> getLength = [&](ListNode* node){
+            if(!node) return 0;
+            return 1 + getLength(node->next);
+        };
+        
+        auto lengthA = getLength(headA);
+        auto lengthB = getLength(headB);
+        if(lengthA > lengthB){
+            swap(lengthA, lengthB);
+            swap(headA, headB);
+        }
+        int moves = lengthB - lengthA;
+        while(moves > 0){
+            headB = headB->next;
+            moves -= 1;
+        }
+        while(headA && headB){
+            if(headA == headB) return headA;
+            headA = headA -> next;
+            headB = headB -> next;
+        }
+        return nullptr;
+    }
+};
+
+Time Complexity: O(max(lengthA, lengthB))
+Space Complexity: O(1)
