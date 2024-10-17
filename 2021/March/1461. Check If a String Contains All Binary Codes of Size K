@@ -1,0 +1,11 @@
+class Solution {
+public:
+    bool hasAllCodes(string s, int k) {
+        unordered_map<string,bool> m;
+    
+        for(int i = 0; i + k <= s.length(); i++){
+            m[s.substr(i,k)] = true;
+        } 
+        return m.size() == pow(2,k);
+    }
+};
