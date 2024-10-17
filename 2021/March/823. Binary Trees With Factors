@@ -1,0 +1,28 @@
+class Solution {
+private:
+    const int MOD = 1e9 + 7;
+    long long helper(int number, unordered_map<int,long long>& cache, vector<int>& arr, unordered_set<int>& arr_number){
+        if(cache.count(number)) return cache[number];
+        long long res = 1;
+        for(int i = 0; i < arr.size(); i++){
+            if(arr[i] >= number) break;
+            if(number % arr[i] == 0 && arr_number.find(number / arr[i]) != arr_number.end()){
+                res += 1ll * helper(arr[i], cache, arr, arr_number) * helper(number/arr[i],cache,arr, arr_number);
+            }
+        }
+        cache[number] = res;
+        return res;
+    }
+public:
+    int numFactoredBinaryTrees(vector<int>& arr) {
+        sort(arr.begin(),arr.end());
+        long long res = 0;
+        unordered_map<int, long long> cache;
+        unordered_set<int> arr_number(arr.begin(),arr.end());
+        for(int i = 0; i < arr.size(); i++){
+            res = (res + helper(arr[i],cache, arr, arr_number)) % MOD;
+        }
+        
+        return res;
+    }
+};
