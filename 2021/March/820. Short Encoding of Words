@@ -1,0 +1,49 @@
+class TrieNode{
+public:
+    vector<TrieNode*> children;
+    TrieNode(){
+        children.resize(26, nullptr);
+    }
+};
+class Trie{
+private:
+    TrieNode* root;
+public:
+    Trie(){
+        root = new TrieNode();
+    }
+    void insert(string& word, vector<string>& res){
+        TrieNode* r = root;
+        bool is_suffix = true;
+        for(auto c: word){
+            int index = c - 'a';
+            if(!r->children[index]){
+                r->children[index] = new TrieNode();
+                is_suffix = false;
+            }
+            r = r->children[index];
+        }
+        if(!is_suffix) res.push_back(word);
+    }
+
+};
+
+class Solution {
+public:
+    int minimumLengthEncoding(vector<string>& words) {
+        sort(words.begin(), words.end(), [&](string& a, string& b){
+            return a.length() > b.length();
+        });
+        auto trie = new Trie();
+        vector<string> res;
+        for(int i = 0; i < words.size(); i++){
+            reverse(words[i].begin(),words[i].end());
+            trie->insert(words[i],res);
+        }
+        int minLength = 0;
+        for(auto w: res)
+            minLength += (w.size() + 1);
+        return minLength;
+
+    }
+};
