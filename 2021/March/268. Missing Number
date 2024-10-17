@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        int n = nums.size();
+        int total_sum = n * (n + 1) / 2;
+        int cur_sum = accumulate(nums.begin(),nums.end(),0);
+        return total_sum - cur_sum;
+    }
+};
+
+class Solution:
+    def missingNumber(self, nums: List[int]) -> int:
+        n = len(nums)
+        return int(n*(n+1)/2) - sum(nums)
+
+
+Time Complexity: O(1)
+Space Complexity: O(1)
