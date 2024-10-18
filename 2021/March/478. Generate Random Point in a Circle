@@ -1,0 +1,35 @@
+class Solution{
+private:
+    double radius;
+    double x;
+    double y;
+public:
+    Solution(double radius, double x_center, double y_center) {
+        this->radius = radius;
+        this->x = x_center;
+        this->y = y_center;
+    }
+    
+    vector<double> randPoint() {
+        double min_val = 0;
+        double max_val = this->radius * this->radius;
+
+        std::random_device rd;  // Seed generator
+        std::mt19937 gen(rd()); // Mersenne Twister engine
+        std::uniform_real_distribution<> dis(min_val, max_val); // Distribution in range [min_val, max_val)
+        double random_area = dis(gen);
+        auto random_r = sqrt(random_area);
+        min_val = 0;
+        max_val = 2 * M_PI;
+        std::uniform_real_distribution<> dis_angle(min_val, max_val); // Distribution in range [min_val, max_val)
+        auto random_angle = dis_angle(gen);
+        return {x + random_r * cos(random_angle),y + random_r * sin(random_angle) };
+
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution* obj = new Solution(radius, x_center, y_center);
+ * vector<double> param_1 = obj->randPoint();
+ */
