@@ -1,0 +1,15 @@
+class Solution {
+private:
+    void dfs(int i, unordered_set<int>& visited, vector<vector<int>>& rooms){
+        if(visited.find(i) != visited.end()) return;
+        visited.insert(i);
+        for(auto next: rooms[i]) dfs(next,visited,rooms);
+    } 
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        unordered_set<int> visited;
+        dfs(0,visited, rooms);
+        return n == visited.size();
+    }
+};
