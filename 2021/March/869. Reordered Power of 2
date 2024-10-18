@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool reorderedPowerOf2(int n) {
+        vector<int> countDigit(10,0);
+        int copy_n = n;
+        while(copy_n > 0){
+            countDigit[copy_n % 10] += 1;
+            copy_n /= 10;
+        }
+        int candidate = 1;
+        for(int i = 0; i < 31; i++){
+            int copy_candidate =  candidate << i;
+            vector<int> digit(10,0);
+            while(copy_candidate > 0){
+                digit[copy_candidate % 10] += 1;
+                copy_candidate /= 10;
+            }
+            if(digit == countDigit) return true;
+        }
+        return false;
+       
+    }
+};
