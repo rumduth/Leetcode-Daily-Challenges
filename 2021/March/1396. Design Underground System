@@ -1,0 +1,44 @@
+class UndergroundSystem {
+private:
+    unordered_map<string,pair<int,int>> system; //from-to / total_time / count
+    unordered_map<int, pair<string,int>> user;
+public:
+    UndergroundSystem() {
+        
+    }
+    
+    void checkIn(int id, string stationName, int t) {
+        // custeomer with id, check in station at time t
+        user[id] = {stationName, t};
+    }
+    
+    void checkOut(int id, string stationName, int t) {
+        //  custeomer with id, check out station at time t
+        auto start_info = user[id];
+        auto time = t - start_info.second;
+        auto key = start_info.first + '-' + stationName;
+        if(!system.count(key)){
+            system[key] = {0,0};
+        }
+        system[key].first += time;
+        system[key].second += 1;
+        user.erase(id);
+    }
+    
+    double getAverageTime(string startStation, string endStation) {
+        string key = startStation + '-' + endStation;
+        auto info = system[key];
+        auto time = info.first;
+        auto number = info.second;
+        return time * 1.0 / number;
+    }
+};
+
+/**
+ * Your UndergroundSystem object will be instantiated and called as such:
+ * UndergroundSystem* obj = new UndergroundSystem();
+ * obj->checkIn(id,stationName,t);
+ * obj->checkOut(id,stationName,t);
+ * double param_3 = obj->getAverageTime(startStation,endStation);
+ */
+
