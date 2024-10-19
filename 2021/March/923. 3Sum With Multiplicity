@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int threeSumMulti(vector<int>& arr, int target) {
+        const int MOD = 1e9 + 7;
+        sort(arr.begin(),arr.end());
+        long long res = 0;
+        int n = arr.size();
+        for(int i = 0; i < n; i++){
+            int j = i + 1;
+            int k = n - 1;
+            while(j < k){
+                if(arr[i] + arr[j] + arr[k] == target){
+                    if(arr[j] == arr[k]){
+                        int a = k - j + 1;
+                        res = (res + 1ll * a * (a - 1) / 2) % MOD;
+                        break;
+                    }
+                    int cnt_j = 1;
+                    int cnt_k = 1;
+                    j += 1;
+                    while(j < k && arr[j] == arr[j-1]){
+                        j += 1;
+                        cnt_j += 1;
+                    }
+                    k -= 1;
+                    while(k >= j && arr[k] == arr[k+1]){
+                        k -= 1;
+                        cnt_k += 1;
+                    }
+                    res = (res + 1ll * cnt_j * cnt_k) % MOD;
+             
+                }else if(arr[i] + arr[j] + arr[k] > target) k--;
+                else j++;
+            }
+
+        }
+        return res;
+    }
+};
