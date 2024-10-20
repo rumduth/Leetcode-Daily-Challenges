@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& h) {
+        int m = h.size();
+        int n = h[0].size();
+        vector<vector<bool>> pacific(m, vector<bool>(n,false));
+        vector<vector<bool>> atlantic(m, vector<bool>(n,false));
+        vector<vector<int>> res;
+        vector<int> directions = {0,1,0,-1,0};
+        function<void(int,int,int,vector<vector<bool>>& m)> dfs = [&](int r, int c, int prev, vector<vector<bool>>& visited){
+            if(visited[r][c] || h[r][c] < prev) return;
+            visited[r][c] = true;
+            for(int i = 0; i < 4; i++){
+                auto new_r = r + directions[i];
+                auto new_c = c + directions[i+1];
+                if(new_r < 0 || new_r >= m || new_c < 0 || new_c >= n) continue;
+                dfs(new_r,new_c,h[r][c],visited);
+            }
+        };
+
+        for(int r = 0; r < m; r++){
+            dfs(r,0,h[r][0],pacific);
+            dfs(r,n-1,h[r][n-1],atlantic);
+        }
+        for(int c = 0; c < n; c++){
+            dfs(0,c,h[0][c],pacific);
+            dfs(m-1,c,h[m-1][c],atlantic);
+        }
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(pacific[i][j] && atlantic[i][j]) res.push_back({i,j});
+            }
+        }
+        return res;
+    }
+};
