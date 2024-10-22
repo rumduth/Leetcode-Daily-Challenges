@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        auto cmp = [&](vector<int>& a, vector<int>& b){
+            if(a[0] == b[0]) return a[1] > b[1];
+            return a[0] < b[0];
+        };
+        sort(envelopes.begin(),envelopes.end(), cmp);
+        vector<int> height;
+        for(auto envelope: envelopes) height.push_back(envelope[1]);
+        vector<int> dp;
+        for(int h : height){
+            auto it = lower_bound(dp.begin(),dp.end(),h);
+            if(it == dp.end()) dp.push_back(h);
+            else *it = h;
+        }
+        return dp.size();
+    }
+};
+
+
+class Solution:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        envelopes.sort(key=lambda x : [x[0],-x[1]])
+        dp = []
+        height = [h for _, h in envelopes]
+        for h in height:
+            index = bisect.bisect_left(dp, h) 
+            if index == len(dp):
+                dp.append(h)
+            else:
+                dp[index] = h
+        
+        return len(dp)
+
+Time Complexity: O(NlogN)
+Space Complexity: O(N)
