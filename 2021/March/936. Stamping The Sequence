@@ -1,0 +1,40 @@
+class Solution {
+public:
+    vector<int> movesToStamp(string stamp, string target) {
+        int m = stamp.length();
+        int n = target.length();
+        vector<int> res;
+        vector<int> indegree(n - m + 1, m);
+        vector<vector<int>> graph(n);
+        queue<int> q;
+        vector<int> visited(n,false);
+
+        for(int i = 0; i <= n - m; i++){
+            for(int j = 0; j < m; j++){
+                if(stamp[j] == target[i+j]){
+                    if(--indegree[i] == 0) q.push(i);
+                }else
+                    graph[i+j].push_back(i);
+            }
+        }
+        
+        while(!q.empty()){
+            auto window = q.front();
+            res.push_back(window);
+            q.pop();
+            for(int j = 0; j < m; j++){
+                if(!visited[window + j]){
+                    visited[window+j] = true;
+                    for(int dependency : graph[window+j]){
+                        if(--indegree[dependency] == 0) q.push(dependency);
+                    }
+                }
+            }
+        }
+
+        for(auto v: visited) if(!v) return {};
+
+        reverse(res.begin(),res.end());
+        return res;
+    }
+};
