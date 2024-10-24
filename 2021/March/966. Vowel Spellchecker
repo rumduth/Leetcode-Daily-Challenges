@@ -1,0 +1,45 @@
+class Solution {
+private:
+    bool isVowel(char& c){
+        return (c == 'a' || c == 'o' || c == 'u' || c == 'i' || c == 'e');
+    }
+public:
+    vector<string> spellchecker(vector<string>& wordlist, vector<string>& queries) {
+        unordered_set<string> exactWords(wordlist.begin(),wordlist.end());
+        unordered_map<string, string> capitalization;
+        unordered_map<string, string> vowelError;
+
+        for(auto str: wordlist){
+            string copy = str;
+            std::transform(copy.begin(),copy.end(),copy.begin(),::tolower);
+            if(!capitalization.count(copy)) capitalization[copy] = str;
+            for(int i = 0; i < copy.length(); i++){
+                if(isVowel(copy[i])) copy[i] = '*';
+            }
+            if(!vowelError.count(copy)) vowelError[copy] = str;
+        }
+
+        vector<string> res;
+        for(auto str: queries){
+            if(exactWords.find(str) != exactWords.end()){
+                res.push_back(str);
+                continue;
+            }
+            auto lowercase = str;
+            std::transform(lowercase.begin(),lowercase.end(),lowercase.begin(),::tolower);
+            if(capitalization.count(lowercase)){
+                res.push_back(capitalization[lowercase]);
+                continue;
+            }
+            for(int i = 0; i < lowercase.length(); i++){
+                if(isVowel(lowercase[i])) lowercase[i] = '*';
+            }
+            if(vowelError.count(lowercase)){
+                res.push_back(vowelError[lowercase]);
+                continue;
+            }
+            res.push_back("");
+        }
+        return res;
+    }
+};
