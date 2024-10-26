@@ -1,0 +1,29 @@
+class Solution {
+private:
+    vector<int> preprocessing(string& str){
+        int zero = 0;
+        int one = 0;
+        for(auto c: str){
+            if(c == '0') zero += 1;
+            else one += 1;
+        }
+        return {zero, one};
+    }
+public:
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        vector<vector<int>> arr;
+        for(auto str : strs) arr.push_back(preprocessing(str));
+        vector<vector<int>> dp(m + 1,vector<int>(n+1,0));
+        for(auto& cnt : arr){
+            int zero = cnt[0];
+            int one = cnt[1];
+            for(int i = m; i >= zero; i--){
+                for(int j = n; j >= one; j--){
+                    dp[i][j] = max(dp[i][j], 1 + dp[i-zero][j-one]);
+                }
+            }
+        }
+        return dp[m][n];
+        
+    }
+};
