@@ -1,0 +1,80 @@
+class myNode{
+private:
+    
+public:
+myNode* next;
+    int val;
+    myNode(int val){
+        this->val = val;
+        next = nullptr;
+    }
+};
+class MyCircularQueue {
+private:
+    myNode* head;
+    myNode* tail;
+    int max_size;
+    int size;
+public:
+    MyCircularQueue(int k) {
+        head = nullptr;
+        tail = nullptr;
+        max_size = k;
+        size = 0;
+    }
+    
+    bool enQueue(int value) {
+        if(size < max_size){
+            if(!head){
+                head = tail = new myNode(value);
+                size += 1;
+            }else{
+                tail->next = new myNode(value);
+                tail = tail->next;
+                size += 1;
+            }
+            return true;
+        }
+        return false;
+
+    }
+    
+    bool deQueue() {
+        if(head){
+            head = head->next;
+            size -= 1;
+            if(!head) tail = nullptr;
+            return true;
+        }
+        return false;
+    }
+    
+    int Front() {
+        if(head) return head->val;
+        return -1;
+    }
+    
+    int Rear() {
+        if(tail) return tail->val;
+        return -1;
+    }
+    
+    bool isEmpty() {
+        return size == 0;
+    }
+    
+    bool isFull() {
+        return size == max_size;
+    }
+};
+
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue* obj = new MyCircularQueue(k);
+ * bool param_1 = obj->enQueue(value);
+ * bool param_2 = obj->deQueue();
+ * int param_3 = obj->Front();
+ * int param_4 = obj->Rear();
+ * bool param_5 = obj->isEmpty();
+ * bool param_6 = obj->isFull();
+ */
