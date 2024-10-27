@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int minOperations(int n) {
+        int lower_bound = (n + 1) / 2 - 1;
+        int upper_bound = (n + 2) / 2 - 1;
+        int median = (2 * lower_bound + 1 + 2 * upper_bound + 1) / 2;
+        int res = 0;
+        for(int i = 1; i <= ceil(n/2); i++){
+            res += (median - 2 * (i-1) - 1);
+        }
+        return res;
+    }
+};
