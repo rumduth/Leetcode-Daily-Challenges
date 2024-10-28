@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool isAlienSorted(vector<string>& words, string order) {
+        vector<int> order_number(26,0);
+        for(int i = 0; i < order.size(); i++){
+            auto index = order[i] - 'a';
+            order_number[index] = i;
+        }
+
+        auto cmp = [&](string& a, string& b){
+            for(int i = 0; i < min(a.size(),b.size()); i++){
+                int index1 = a[i] - 'a';
+                int index2 = b[i] - 'a';
+                if(index1 != index2) return order_number[index1] <  order_number[index2];
+            }
+            return a.size() < b.size();
+        };
+        auto copy = words;
+        sort(words.begin(),words.end(),cmp);
+        for(int i = 0; i < copy.size(); i++){
+            if(copy[i] != words[i]) return false;
+        }
+        return true;
+    }
+};
